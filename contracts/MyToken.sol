@@ -17,31 +17,39 @@ contract MyToken is ERC20, Ownable {
         uint cAge;
         string cGender;
         string cNationality;
-        uint cBalance;
         uint startInsurance;
         uint endInsurance;
     }
 
     constructor() ERC20("Osama Insurance Smart Contract", "OISC") {}
 
-    // Everything needed for registering + paying should be in one function.
-    // Registeration of customer takes fees from them due to the gas tax fees.
-    // IMO The right solution is to merge 2 functions of registering and paying in one function.
-    function registerCustomer(string memory newcName, uint newcAge, string memory newcGender, string memory newcNationality) public onlyOwner payable{
+    // This function is responsible of registering new customers.
+    // Customers will still pay gas fees...
+    function registerCustomer(string memory newcName, uint newcAge, string memory newcGender, string memory newcNationality) public onlyOwner{
+        require(customers[msg.sender].cAddress != msg.sender, "You are already registered.");
         require(newcAge >= 18, "You are not eligable to have an insurance.");
-        require(balanceOf(msg.sender) >= 0, "You don't have enough balance.");
         require(customers[msg.sender].startInsurance <= 0, "You already have an insurance");
-        uint newcBalance = balanceOf(msg.sender);
+        customers[msg.sender] = Customer(msg.sender, newcName, newcAge, newcGender, newcNationality, 0, 0);
+    }
+
+    // This function lets the customer pay for their insurance after registeration.
+    // Gas fees will be included.
+    function insuranceSubscribe() public onlyOwner payable{
+        require(customers[msg.sender].cAddress == msg.sender, "You are not registered,");
+        require(balanceOf(msg.sender) >= 0, "You don't have enough balance.");
+        require(customers[msg.sender].endInsurance < block.timestamp, "You already have an active insurance");
         transferFrom(msg.sender, insuranceAddress, 0);
-        customers[msg.sender] = Customer(msg.sender, newcName, newcAge, newcGender, newcNationality, newcBalance, block.timestamp, block.timestamp + 31556926);
+        customers[msg.sender].startInsurance = block.timestamp;
+        customers[msg.sender].endInsurance = block.timestamp + 31556926;
         totalSales++;
     }
 
+    // This function is responsible of
     function checkBalance() public onlyOwner view returns (uint){
         return balanceOf(msg.sender);
     }
 
-    function checkInsurance() public onlyOwner view returns (Customer memory){
+    function checkRegisteration() public onlyOwner view returns (Customer memory){
         return customers[msg.sender];
     }
 }

@@ -8,6 +8,9 @@
 This is a personal test project of implementing ERC20 for making smart contract via Remix using solidity & oppenzippke
 
 **How was this done?**
+
 Coding done by using remix.ethereum.org
+
 Imported packages from https://github.com/OpenZeppelin/openzeppelin-contracts/tree/master
+
 Done with solidity language.

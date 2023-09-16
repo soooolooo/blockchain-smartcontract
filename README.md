@@ -1,5 +1,5 @@
 # blockchain-smartcontract
-*This test was done with the cooperation of https://github.com/AKA-Muhannad.*
+*This code was done with the cooperation of https://github.com/AKA-Muhannad.*
 
 *Instructed and reviewed by https://github.com/justmoo*
 

@@ -1,8 +1,6 @@
 # blockchain-smartcontract
 *This code was done with the cooperation of https://github.com/AKA-Muhannad.*
-
-*Instructed and reviewed by https://github.com/justmoo*
-
+<br>*Instructed and reviewed by https://github.com/justmoo*
 
 **What is this repository?**
 
